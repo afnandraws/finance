@@ -1,12 +1,26 @@
+import { useDispatch } from "react-redux";
+import { getUserData } from "../../store/auth-slice";
+
 const Login = () => {
-  const formHandler = () => {};
+  const dispatch = useDispatch();
+
+  const formHandler = (e) => {
+    e.preventDefault();
+
+    dispatch(
+      getUserData({
+        username: e.target.username.value,
+        password: e.target.password.value,
+      })
+    );
+  };
   return (
-    <form>
+    <form onSubmit={formHandler}>
       <label>Username</label>
-      <input />
+      <input name="username" />
       <label>Password</label>
-      <input />
-      <button onClick={formHandler}>submit</button>
+      <input type="password" name="password" />
+      <button type="submit">submit</button>
     </form>
   );
 };

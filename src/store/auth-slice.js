@@ -3,15 +3,17 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 export const getUserData = createAsyncThunk(
   "auth/getUserData",
   async (userData) => {
-    const password = userData.password;
+    const usernameData = userData.username;
+    const passwordData = userData.password;
 
     const response = await fetch(
       `https://finance-project-1a173-default-rtdb.firebaseio.com/users/${userData.username}.json`
     );
 
     const responseData = await response.json();
+    console.log(responseData);
 
-    return { password, responseData };
+    return { usernameData, passwordData, responseData };
   }
 );
 
@@ -19,22 +21,26 @@ const authSlice = createSlice({
   name: "auth",
   initialState: {
     username: null,
-    password: null,
     status: "idle", // idle, loading, error, success
   },
   extraReducers: {
     [getUserData.pending]: (state) => {
       state.status = "loading";
+      console.log("loading");
     },
     [getUserData.fulfilled]: (state, { payload }) => {
-      if (payload.password === payload.responseData.password) {
+      if (payload.passwordData === payload.responseData.password) {
+        state.username = payload.username;
         state.status = "success";
+        console.log("success");
       } else {
         state.status = "error";
+        console.log("error");
       }
     },
     [getUserData.rejected]: (state) => {
       state.status = "error";
+      console.log("error");
     },
   },
 });
