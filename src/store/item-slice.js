@@ -7,7 +7,7 @@ export const getFinanceData = createAsyncThunk(
     const success = useSelector((state) => state.auth.status);
     if (success === "success") {
       const response = await fetch(
-        `https://finance-project-1a173-default-rtdb.firebaseio.com/users/${userData.username}/finances.json`
+        `https://finance-project-1a173-default-rtdb.firebaseio.com/users/${financeData.username}/finances.json`
       );
 
       const responseData = await response.json();
@@ -32,3 +32,7 @@ const financeSlice = createSlice({
     [getFinanceData.rejected]: (state) => {},
   },
 });
+
+export const financeActions = financeSlice.actions;
+
+export default financeSlice;
