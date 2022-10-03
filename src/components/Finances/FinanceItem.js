@@ -1,5 +1,5 @@
-const FinanceItem = () => {
+const FinanceItems = () => {
   return;
 };
 
-export default FinanceItem;
+export default FinanceItems;
