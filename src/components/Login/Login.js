@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { getUserData } from "../../store/auth-slice";
 
-const Login = () => {
+const Login = (props) => {
   const dispatch = useDispatch();
 
   const formHandler = (e) => {
