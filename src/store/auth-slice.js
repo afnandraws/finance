@@ -11,7 +11,6 @@ export const getUserData = createAsyncThunk(
     );
 
     const responseData = await response.json();
-    console.log(responseData);
 
     return { usernameData, passwordData, responseData };
   }
