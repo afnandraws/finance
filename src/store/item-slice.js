@@ -8,7 +8,6 @@ export const getFinanceData = createAsyncThunk(
     );
 
     const responseData = await response.json();
-    console.log(responseData);
     return { responseData };
   }
 );
@@ -26,17 +25,20 @@ const financeSlice = createSlice({
     [getFinanceData.pending]: (state) => {},
     [getFinanceData.fulfilled]: (state, { payload }) => {
       const items = Object.getOwnPropertyNames(payload.responseData);
-      let loadedItems;
+      const loadedItems = [];
 
       for (const key in items) {
         const id = items[key];
-        const title = payload.responseData[`${id}`]["title"];
-        loadedItems = { title };
+        loadedItems.push({
+          id: id,
+          title: payload.responseData[`${id}`]["title"],
+          type: payload.responseData[`${id}`]["type"],
+          price: payload.responseData[`${id}`]["price"],
+          genre: payload.responseData[`${id}`]["genre"],
+        });
       }
 
       console.log(loadedItems);
-
-      console.log();
     },
     [getFinanceData.rejected]: (state) => {},
   },
