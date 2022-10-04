@@ -1,19 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { useSelector } from "react-redux";
 
 export const getFinanceData = createAsyncThunk(
   "finance/getFinanceData",
   async (financeData) => {
-    const success = useSelector((state) => state.auth.status);
-    if (success === "success") {
-      const response = await fetch(
-        `https://finance-project-1a173-default-rtdb.firebaseio.com/users/${financeData.username}/finances.json`
-      );
+    const response = await fetch(
+      `https://finance-project-1a173-default-rtdb.firebaseio.com/users/${financeData.username}/finances.json`
+    );
 
-      const responseData = await response.json();
-      console.log(responseData);
-      return;
-    }
+    const responseData = await response.json();
+    console.log(responseData);
+    return;
   }
 );
 
