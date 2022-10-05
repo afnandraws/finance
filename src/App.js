@@ -1,13 +1,21 @@
+import React, { Suspense } from "react";
 import { useSelector } from "react-redux";
-import Finances from "./components/Finances/Finances";
 import Welcome from "./components/Welcome/Welcome/Welcome";
+
+const Finances = React.lazy(() => import("./components/Finances/Finances"));
 
 function App() {
   const success = useSelector((state) => state.auth.status);
 
   return (
     <>
-      <div>{success === "success" && <Finances />}</div>
+      <div>
+        {success === "success" && (
+          <Suspense fallback={<p>loading...</p>}>
+            <Finances />
+          </Suspense>
+        )}
+      </div>
       <div>{success !== "success" && <Welcome />}</div>
     </>
   );

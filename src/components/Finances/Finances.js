@@ -7,17 +7,17 @@ import FinanceItems from "./FinanceItem";
 const Finances = () => {
   const dispatch = useDispatch();
 
-  const dispatchHandler = () => {
+  useEffect(() => {
     dispatch(
       getFinanceData({
         username: "test",
       })
     );
-  };
+  });
 
   return (
     <div>
-      <button onClick={dispatchHandler}>refresh</button>
+      {/* <button onClick={dispatchHandler}>refresh</button> */}
       <h1>Finances</h1>
       <AddFinances />
       <ul>
