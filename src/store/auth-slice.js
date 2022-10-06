@@ -43,7 +43,7 @@ const authSlice = createSlice({
       state.email = payload.email;
       state.idToken = payload.idToken;
       console.log("success");
-      console.log(state.idToken & " this is from fulfilled");
+      console.log(state.idToken);
     },
     [postSignUp.rejected]: (state) => {
       state.status = "error";
