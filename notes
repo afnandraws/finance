@@ -5,3 +5,16 @@ look at react.memo as well as lazy loading
 Refresh on react router and lazy loading
 
 instead of using if statements, use routes from react-router
+
+restructure the database hooking up, connect to a firestore database instead to have data related to each user
+
+get the usersID then use that to create a directory
+
+item slice: {
+id:
+title:
+type:
+price:
+genre:
+postedOn
+}
