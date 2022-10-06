@@ -1,43 +1,51 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { app } from "../firestore";
 
-export const getUserData = createAsyncThunk(
+export const postSignUp = createAsyncThunk(
   "auth/getUserData",
-  async (userData) => {
-    const usernameData = userData.username;
-    const passwordData = userData.password;
-
+  async (signUpData) => {
+    const apiKey = app.options.apiKey;
     const response = await fetch(
-      `https://finance-project-1a173-default-rtdb.firebaseio.com/users/${userData.username}.json`
+      `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${apiKey}`,
+      {
+        method: "POST",
+        body: JSON.stringify({
+          email: signUpData.email,
+          password: signUpData.password,
+          returnSecureToken: true,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
     );
 
     const responseData = await response.json();
-
-    return { usernameData, passwordData, responseData };
+    console.log(responseData);
+    return { email: responseData.email, idToken: responseData.idToken };
   }
 );
 
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    username: null,
-    status: "idle", // idle, loading, error, success
+    email: "",
+    idToken: "",
+    status: "", // idle, loading, success, error
   },
   extraReducers: {
-    [getUserData.pending]: (state) => {
+    [postSignUp.pending]: (state) => {
       state.status = "loading";
       console.log("loading");
     },
-    [getUserData.fulfilled]: (state, { payload }) => {
-      if (payload.passwordData === payload.responseData.password) {
-        state.username = payload.username;
-        state.status = "success";
-        console.log("success");
-      } else {
-        state.status = "error";
-        console.log("error");
-      }
+    [postSignUp.fulfilled]: (state, { payload }) => {
+      state.status = "success";
+      state.email = payload.email;
+      state.idToken = payload.idToken;
+      console.log("success");
+      console.log(state.idToken & " this is from fulfilled");
     },
-    [getUserData.rejected]: (state) => {
+    [postSignUp.rejected]: (state) => {
       state.status = "error";
       console.log("error");
     },
@@ -47,8 +55,3 @@ const authSlice = createSlice({
 export const authActions = authSlice.actions;
 
 export default authSlice;
-
-//first check if such a directory exists,
-// then in getUserData.fulfilled do an if statement
-//if payload.password === payload.responseData.password
-// then make status = completed

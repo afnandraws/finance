@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { getUserData } from "../../store/auth-slice";
+import { getUserData } from "../../store/old-auth-slice";
 
 const Login = (props) => {
   const dispatch = useDispatch();
