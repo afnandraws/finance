@@ -26,24 +26,25 @@ export const postSignUp = createAsyncThunk(
   }
 );
 
+//create getUserData asyncthunk
+
+//create logoutUser asyncthunk
+
 const authSlice = createSlice({
   name: "auth",
   initialState: {
     email: "",
-    idToken: "",
-    status: "", // idle, loading, success, error
+    idToken: null,
+    success: "", // idle, loading, success, error
   },
   extraReducers: {
     [postSignUp.pending]: (state) => {
-      state.status = "loading";
       console.log("loading");
     },
     [postSignUp.fulfilled]: (state, { payload }) => {
-      state.status = "success";
       state.email = payload.email;
       state.idToken = payload.idToken;
       console.log("success");
-      console.log(state.idToken);
     },
     [postSignUp.rejected]: (state) => {
       state.status = "error";
