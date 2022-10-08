@@ -1,17 +1,22 @@
+import { useRef } from "react";
 import { useDispatch } from "react-redux";
-import { getUserData } from "../../store/old-auth-slice";
+import { postSignIn } from "../../store/auth-slice";
 import classes from "./Login.module.css";
 
 const Login = (props) => {
   const dispatch = useDispatch();
+  const emailRef = useRef();
+  const passwordRef = useRef();
 
   const formHandler = (e) => {
     e.preventDefault();
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
 
     dispatch(
-      getUserData({
-        username: e.target.username.value,
-        password: e.target.password.value,
+      postSignIn({
+        email: email,
+        password: password,
       })
     );
   };
@@ -25,10 +30,10 @@ const Login = (props) => {
       <h3>Login to your account</h3>
       <form onSubmit={formHandler}>
         <label>Email</label>
-        <input type="email" name="email" />
+        <input ref={emailRef} type="email" name="email" />
         <br />
         <label>Password</label>
-        <input type="password" name="password" />
+        <input ref={passwordRef} type="password" name="password" />
         <br />
         <button type="submit">Submit</button>
         <button type="button" onClick={changeToSignUpHandler}>

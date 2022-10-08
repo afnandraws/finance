@@ -11,11 +11,14 @@ const SignUp = (props) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
+    const name = nameRef.current.value;
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
     dispatch(
       postSignUp({
-        name: nameRef,
-        email: emailRef,
-        password: passwordRef,
+        name: name,
+        email: email,
+        password: password,
       })
     );
   };
@@ -35,7 +38,7 @@ const SignUp = (props) => {
         <input ref={emailRef} type="email" name="email" />
         <br />
         <label>Password</label>
-        <input ref={nameRef} type="password" name="password" />
+        <input ref={passwordRef} type="password" name="password" />
         <br />
         <button type="submit">Submit</button>
         <button type="button" onClick={changeToLoginHandler}>
