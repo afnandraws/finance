@@ -4,18 +4,18 @@ import { postSignUp } from "../../store/auth-slice";
 import classes from "./SignUp.module.css";
 
 const SignUp = (props) => {
+  const nameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
   const dispatch = useDispatch();
 
   const submitHandler = (e) => {
     e.preventDefault();
-    const entEmail = emailRef.current.value;
-    const entPassword = passwordRef.current.value;
     dispatch(
       postSignUp({
-        email: entEmail,
-        password: entPassword,
+        name: nameRef,
+        email: emailRef,
+        password: passwordRef,
       })
     );
   };
@@ -29,13 +29,13 @@ const SignUp = (props) => {
       <h3>Make a new account</h3>
       <form onSubmit={submitHandler}>
         <label>Name</label>
-        <input name="name" />
+        <input ref={nameRef} name="name" />
         <br />
         <label>Email</label>
-        <input type="email" name="email" />
+        <input ref={emailRef} type="email" name="email" />
         <br />
         <label>Password</label>
-        <input type="password" name="password" />
+        <input ref={nameRef} type="password" name="password" />
         <br />
         <button type="submit">Submit</button>
         <button type="button" onClick={changeToLoginHandler}>
