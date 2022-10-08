@@ -42,8 +42,13 @@ const authSlice = createSlice({
       console.log("loading");
     },
     [postSignUp.fulfilled]: (state, { payload }) => {
-      state.email = payload.email;
-      state.idToken = payload.idToken;
+      if (payload.idToken.length() === 0) {
+        console.log("error no token");
+      } else {
+        state.email = payload.email;
+        state.idToken = payload.idToken;
+      }
+
       console.log("success");
     },
     [postSignUp.rejected]: (state) => {

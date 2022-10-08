@@ -15,7 +15,10 @@ function App() {
       <Route path="/" element={<Welcome />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<SignUp />} />
-      <Route path="/finances" element={<Finances />} />
+
+      <Suspense fallback={<p>loading...</p>}>
+        <Route path="/finances" element={<Finances />} />
+      </Suspense>
     </Routes>
 
     // <>
