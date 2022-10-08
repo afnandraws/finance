@@ -25,7 +25,7 @@ export const postSignUp = createAsyncThunk(
 
     const responseData = await response.json();
     console.log(responseData);
-    return { email: responseData.email, idToken: responseData.idToken };
+    return { email: responseData.email, localId: responseData.localId };
   }
 );
 
@@ -47,7 +47,17 @@ export const postSignIn = createAsyncThunk(
         },
       }
     );
-    console.log(response);
+    if (response.ok) {
+      const responseData = await response.json();
+      console.log(responseData);
+      return {
+        email: responseData.email,
+        localId: responseData.localId,
+        success: "error",
+      };
+    } else {
+      return;
+    }
   }
 );
 
@@ -67,7 +77,7 @@ const authSlice = createSlice({
   initialState: {
     name: "",
     email: "",
-    idToken: null,
+    localId: null,
     success: "", // idle, loading, success, error
   },
   extraReducers: {
@@ -75,11 +85,11 @@ const authSlice = createSlice({
       console.log("loading");
     },
     [postSignUp.fulfilled]: (state, { payload }) => {
-      if (payload.idToken.length === 0) {
-        console.log("error no token");
+      if (payload.localId.length === 0) {
+        state.success = "error";
       } else {
         state.email = payload.email;
-        state.idToken = payload.idToken;
+        state.localId = payload.localId;
       }
 
       console.log("success");
