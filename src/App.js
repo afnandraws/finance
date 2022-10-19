@@ -8,13 +8,18 @@ const Finances = React.lazy(() => import("./components/Finances/Finances"));
 
 function App() {
   const success = useSelector((state) => state.auth.success);
+
   return (
     <Routes>
-      <Route path="/" element={<Welcome />} />
+      <Route path="/finances" element={<Finances />} />
       <Route
-        path="/finances"
+        path="/"
         element={
-          success === "success" ? <Finances /> : <Navigate to="/" replace />
+          success === "success" ? (
+            <Navigate replace to="/finances" />
+          ) : (
+            <Welcome />
+          )
         }
       />
     </Routes>
