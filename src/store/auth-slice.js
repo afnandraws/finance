@@ -32,31 +32,38 @@ export const postSignUp = createAsyncThunk(
 export const postSignIn = createAsyncThunk(
   "auth/getUserData",
   async (signInData) => {
-    const apiKey = app.options.apiKey;
-    const response = await fetch(
-      `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          email: signInData.email,
-          password: signInData.password,
-          returnSecureToken: true,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
+    try {
+      const apiKey = app.options.apiKey;
+      const response = await fetch(
+        `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            email: signInData.email,
+            password: signInData.password,
+            returnSecureToken: true,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log(responseData);
+        return {
+          email: responseData.email,
+          localId: responseData.localid,
+          success: "success",
+        };
+      } else {
+        throw new Error("something went wrong");
       }
-    );
-    if (response.ok) {
-      const responseData = await response.json();
-      console.log(responseData);
+    } catch (error) {
       return {
-        email: responseData.email,
-        localId: responseData.localId,
         success: "error",
       };
-    } else {
-      return;
     }
   }
 );
@@ -81,22 +88,28 @@ const authSlice = createSlice({
     success: "", // idle, loading, success, error
   },
   extraReducers: {
-    [postSignUp.pending]: (state) => {
+    [postSignUp.pending]: () => {
       console.log("loading");
     },
     [postSignUp.fulfilled]: (state, { payload }) => {
+      console.log(payload);
       if (payload.localId.length === 0) {
         state.success = "error";
+        console.log("error");
       } else {
         state.email = payload.email;
         state.localId = payload.localId;
+        console.log("success");
       }
-
-      console.log("success");
     },
-    [postSignUp.rejected]: (state) => {
-      state.status = "error";
-      console.log("error");
+
+    [postSignIn.pending]: () => {
+      console.log("loading");
+    },
+    [postSignIn.fulfilled]: (state, { payload }) => {
+      if (payload.success === "success") {
+        state.success = "success";
+      }
     },
   },
 });

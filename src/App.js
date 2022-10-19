@@ -1,21 +1,22 @@
 import React, { Suspense } from "react";
 import { useSelector } from "react-redux";
-import { Route, Routes } from "react-router-dom";
-import Login from "./components/Login/Login";
-import SignUp from "./components/SignUp/SignUp";
+import { Navigate, Route, Routes } from "react-router-dom";
+
 import Welcome from "./components/Welcome/Welcome";
 
 const Finances = React.lazy(() => import("./components/Finances/Finances"));
 
 function App() {
-  const success = useSelector((state) => state.auth.status);
-
+  const success = useSelector((state) => state.auth.success);
   return (
     <Routes>
       <Route path="/" element={<Welcome />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<SignUp />} />
-      <Route path="/finances" element={<Finances />} />
+      <Route
+        path="/finances"
+        element={
+          success === "success" ? <Finances /> : <Navigate to="/" replace />
+        }
+      />
     </Routes>
 
     // <>
