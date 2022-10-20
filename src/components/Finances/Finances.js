@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { getFinanceData } from "../../store/item-slice";
 import AddFinances from "./AddFinances";
 import FinanceItems from "./FinanceItem";
@@ -13,7 +13,9 @@ const Finances = () => {
         username: "test",
       })
     );
-  });
+  }, [dispatch]);
+
+  const finances = useSelector((state) => state.finance.finances);
 
   return (
     <div>
@@ -21,7 +23,7 @@ const Finances = () => {
       <h1>Finances</h1>
       <AddFinances />
       <ul>
-        {/* {finances.map((items) => (
+        {finances.map((items) => (
           <FinanceItems
             key={items.id}
             title={items.title}
@@ -29,7 +31,7 @@ const Finances = () => {
             price={items.price}
             genre={items.genre}
           />
-        ))} */}
+        ))}
       </ul>
     </div>
   );

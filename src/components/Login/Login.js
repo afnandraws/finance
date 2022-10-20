@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { postSignIn } from "../../store/auth-slice";
+import { getUserData, postSignIn } from "../../store/auth-slice";
 import classes from "./Login.module.css";
 
 const Login = (props) => {
@@ -20,6 +20,8 @@ const Login = (props) => {
         password: password,
       })
     );
+
+    dispatch(getUserData({}));
   };
 
   const changeToSignUpHandler = () => {
@@ -36,9 +38,7 @@ const Login = (props) => {
         <label>Password</label>
         <input ref={passwordRef} type="password" name="password" />
         <br />
-        <NavLink to="/finances">
-          <button type="submit">Submit</button>
-        </NavLink>
+        <button type="submit">Submit</button>
         <button type="button" onClick={changeToSignUpHandler}>
           Sign Up
         </button>

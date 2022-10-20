@@ -15,11 +15,7 @@ export const getFinanceData = createAsyncThunk(
 const financeSlice = createSlice({
   name: "finance",
   initialState: {
-    id: 0,
-    title: "",
-    type: "",
-    price: 0,
-    genre: "",
+    finances: [],
   },
   extraReducers: {
     [getFinanceData.pending]: (state) => {},
@@ -37,8 +33,8 @@ const financeSlice = createSlice({
           genre: payload.responseData[`${id}`]["genre"],
         });
       }
-
-      console.log(loadedItems);
+      state.finances = loadedItems;
+      console.log(state.finances);
     },
     [getFinanceData.rejected]: (state) => {},
   },
