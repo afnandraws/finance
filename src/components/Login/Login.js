@@ -20,8 +20,6 @@ const Login = (props) => {
         password: password,
       })
     );
-
-    dispatch(getUserData({}));
   };
 
   const changeToSignUpHandler = () => {
