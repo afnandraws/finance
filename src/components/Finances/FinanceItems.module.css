@@ -22,3 +22,7 @@
     margin-block-start: 0;
     margin-block-end: 0;
 }
+
+.expense {
+    background-color: rgb(255, 126, 126);
+}
